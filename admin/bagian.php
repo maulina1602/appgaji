@@ -9,11 +9,18 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 include '../koneksi.php';
-$query = "SELECT * FROM jabatan";
+
+$query = "SELECT
+bagian.id, 
+bagian.nama_bagian, 
+karyawan.nama_lengkap, 
+lokasi.nama_lokasi
+FROM
+bagian, karyawan, lokasi
+WHERE
+karyawan.id = bagian.karyawan_id AND
+lokasi.id = bagian.lokasi_id";
 $result = mysqli_query($conn, $query);
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -22,7 +29,7 @@ $result = mysqli_query($conn, $query);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Data Jabatan | APPGAJI</title>
+    <title>Data Bagian | APPGAJI</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -45,12 +52,12 @@ $result = mysqli_query($conn, $query);
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Data Jabatan</h1>
+                            <h1>Data Bagian</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                                <li class="breadcrumb-item active">Jabatan</li>
+                                <li class="breadcrumb-item active">Bagian</li>
                             </ol>
                         </div>
                     </div>
@@ -64,7 +71,7 @@ $result = mysqli_query($conn, $query);
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <a href="jabatan-tambah.php" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Tambah Data</a>
+                                    <a href="bagian-tambah.php" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Tambah Data</a>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -73,10 +80,9 @@ $result = mysqli_query($conn, $query);
                                             <tr>
                                                 <th>No</th>
                                                 <th>Action</th>
-                                                <th>Nama Jabatan</th>
-                                                <th>Gapok</th>
-                                                <th>Tunjangan</th>
-                                                <th>Uang Makan</th>
+                                                <th>Nama Bagian</th>
+                                                <th>Kepala Bagian</th>
+                                                <th>Lokasi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -85,13 +91,12 @@ $result = mysqli_query($conn, $query);
                                                 <tr>
                                                     <td><?php echo $no; ?></td>
                                                     <td>
-                                                    <a href="jabatan-edit.php?id=<?php echo $row["id"]; ?>" class="btn btn-success btn-xs mr-1"><i class="fa fa-edit"></i> Ubah</a>
-                                                    <a href="jabatan-hapus.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger btn-xs text-light" onClick="javascript: return confirm('Apakah yakin ingin menghapus data ini...?');"><i class="fa fa-trash"></i> Hapus</a>
+                                                    <a href="bagian-edit.php?id=<?php echo $row["id"]; ?>" class="btn btn-success btn-xs mr-1"><i class="fa fa-edit"></i> Ubah</a>
+                                                    <a href="bagian-hapus.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger btn-xs text-light" onClick="javascript: return confirm('Apakah yakin ingin menghapus data ini...?');"><i class="fa fa-trash"></i> Hapus</a>
                                                     </td>
-                                                    <td><?php echo $row["nama_jabatan"]; ?></td>
-                                                    <td class="text-right"><?php echo 'Rp. ' . number_format($row["gapok_jabatan"], 0, ',', '.') . ',-'; ?></td>
-                                                    <td class="text-right"><?php echo 'Rp. ' . number_format($row["tunjangan_jabatan"], 0, ',', '.') . ',-'; ?></td>
-                                                    <td class="text-right"><?php echo 'Rp. ' . number_format($row["uang_makan_perhari"], 0, ',', '.') . ',-'; ?></td>   
+                                                    <td><?php echo $row["nama_bagian"]; ?></td>
+                                                    <td><?php echo $row["nama_lengkap"]; ?></td>
+                                                    <td><?php echo $row["nama_lokasi"]; ?></td>
                                                 </tr>
                                             <?php $no++;
                                             }   ?>
@@ -100,10 +105,9 @@ $result = mysqli_query($conn, $query);
                                             <tr>
                                             <th>No</th>
                                                 <th>Action</th>
-                                                <th>Nama Jabatan</th>
-                                                <th>Gapok</th>
-                                                <th>Tunjangan</th>
-                                                <th>Uang Makan</th>
+                                                <th>Nama Bagian</th>
+                                                <th>Kepala Bagian</th>
+                                                <th>Lokasi</th>
                                             </tr>
                                         </tfoot>
                                     </table>
