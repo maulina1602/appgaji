@@ -22,17 +22,18 @@ if (isset($_POST["submit"])) {
     $simpan = mysqli_query($conn, $query);
 
     if ($simpan) {
-        echo "<script type='text/javascript'>
-                alert('Data berhasil disimpan..!');
-                 document.location.herf = 'jabatan.php';
-            </script>";
-    }else{
-        echo "<script type='text/javascript'>
-                alert('Data GAGAL disimpan..!');
-                 document.location.herf = 'jabatan-tambah.php';
-            </script>";
-
+        echo "<script type ='text/javascript'>
+                alert('Data berhasil disimpan...!');
+                document.location.href = 'jabatan.php';
+                </script>";
+    } else {
+        echo "<script type ='text/javascript'>
+        alert('Data GAGAL disimpan...!');
+        document.location.href = 'jabatan-tambah.php';
+        </script>";
     }
+
+    
 }
 ?>
 <!DOCTYPE html>
@@ -66,7 +67,7 @@ if (isset($_POST["submit"])) {
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                                <li class="breadcrumb-item"><a href="lokasi.php">Jabatan</a></li>
+                                <li class="breadcrumb-item"><a href="jabatan.php">Jabatan</a></li>
                                 <li class="breadcrumb-item active">Tambah Jabatan</li>
                             </ol>
                         </div>
@@ -102,7 +103,7 @@ if (isset($_POST["submit"])) {
                                         </div>
                                         <div class="form-group">
                                             <label for="nama">Uang Makan Perhari :</label>
-                                            <input type="number" class="form-control" id="uang_makan_perhari" name="uang_makan_perhari" placeholder="Nama Jabatan" required>
+                                            <input type="number" class="form-control" id="uang_makan_perhari" name="uang_makan_perhari" placeholder="Uang Makan Perhari" required>
                                         </div>
                                     </div>
                                     <!-- /.card-body -->
