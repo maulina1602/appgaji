@@ -11,6 +11,11 @@ if (!isset($_SESSION["login"])) {
 
 include '../koneksi.php';
 
+$id = $_GET["id"];
+$query_jabatan = "SELECT * FROM jabatan WHERE id = $id";
+$result_jabatan = mysqli_query($conn, $query_jabatan);
+$row_jabatan = mysqli_fetch_assoc($result_jabatan);
+
 if (isset($_POST["submit"])) {
 
     $nama_jabatan = htmlspecialchars($_POST["nama_jabatan"]);
@@ -18,10 +23,16 @@ if (isset($_POST["submit"])) {
     $tunjangan_jabatan = htmlspecialchars($_POST["tunjangan_jabatan"]);
     $uang_makan_perhari = htmlspecialchars($_POST["uang_makan_perhari"]);
 
-    $query = "INSERT INTO jabatan VALUES ('', '$nama_jabatan', '$gapok_jabatan', '$tunjangan_jabatan', '$uang_makan_perhari')";
-    $simpan = mysqli_query($conn, $query);
+    $query = "UPDATE jabatan SET
+                nama_jabatan ='$nama_jabatan',
+                gapok_jabatan = '$gapok_jabatan',
+                tunjangan_jabatan = '$tunjangan_jabatan',
+                uang_makan_perhari = '$uang_makan_perhari'
+                WHERE id = $id
+            ";
+    $edit = mysqli_query($conn, $query);
 
-    if ($simpan) {
+    if ($edit) {
         echo "<script type='text/javascript'>
                 alert('Data berhasil disimpan..!');
                  document.location.href = 'jabatan.php';
@@ -29,7 +40,7 @@ if (isset($_POST["submit"])) {
     }else{
         echo "<script type='text/javascript'>
                 alert('Data GAGAL disimpan..!');
-                 document.location.href = 'jabatan-tambah.php';
+                 document.location.href = 'jabatan-edit.php?id=$id';
             </script>";
 
     }
@@ -41,7 +52,7 @@ if (isset($_POST["submit"])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Data Lokasi | APPGAJI</title>
+    <title>Data Jabatan | APPGAJI</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
@@ -82,7 +93,7 @@ if (isset($_POST["submit"])) {
                             <!-- general form elements -->
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Tambah Data</h3>
+                                    <h3 class="card-title">Data Jabatan</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
@@ -90,19 +101,23 @@ if (isset($_POST["submit"])) {
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="nama">Nama Jabatan:</label>
-                                            <input type="text" class="form-control" id="nama_jabatan" name="nama_jabatan" placeholder="Nama Jabatan" required>
+                                            <input type="text" class="form-control" id="nama_jabatan" name="nama_jabatan" 
+                                            value="<?php echo $row_jabatan["nama_jabatan"]; ?>" placeholder="Nama Jabatan" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="nama">Gapok Jabatan :</label>
-                                            <input type="number" class="form-control" id="gapok_jabatan" name="gapok_jabatan" placeholder="Gaji Pokok Jabatan" required>
+                                            <input type="number" class="form-control" id="gapok_jabatan" name="gapok_jabatan"
+                                            value="<?php echo $row_jabatan["gapok_jabatan"]; ?>" placeholder="Gaji Pokok Jabatan" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="nama">Tunjangan Jabatan :</label>
-                                            <input type="number" class="form-control" id="tunjangan_jabatan" name="tunjangan_jabatan" placeholder="Tunjangan Jabatan" required>
+                                            <input type="number" class="form-control" id="tunjangan_jabatan" name="tunjangan_jabatan"
+                                            value="<?php echo $row_jabatan["tunjangan_jabatan"]; ?>" placeholder="Tunjangan Jabatan" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="nama">Uang Makan Perhari :</label>
-                                            <input type="number" class="form-control" id="uang_makan_perhari" name="uang_makan_perhari" placeholder="Uang Makan Perhari" required>
+                                            <input type="number" class="form-control" id="uang_makan_perhari" name="uang_makan_perhari"
+                                            value="<?php echo $row_jabatan["uang_makan_perhari"]; ?>" placeholder="Uang Makan Perhari" required>
                                         </div>
                                     </div>
                                     <!-- /.card-body -->
