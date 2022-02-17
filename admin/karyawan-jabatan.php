@@ -1,7 +1,7 @@
 <?php
 session_start();
 if ($_SESSION["peran"] == "USER") {
-    header("Location: ../index.php");
+    header("Location: ../logout.php");
     exit;
 }
 if (!isset($_SESSION["login"])) {
@@ -31,11 +31,12 @@ $result_karyawan = mysqli_query($conn, $query_karyawan);
 $row_karyawan = mysqli_fetch_assoc($result_karyawan);
 
 if (isset($_POST["submit"])) {
+
     $karyawan_id = htmlspecialchars($_POST["karyawan_id"]);
     $jabatan_id = htmlspecialchars($_POST["jabatan_id"]);
     $tanggal_mulai = htmlspecialchars($_POST["tanggal_mulai"]);
 
-    $query = "INSERT INTO jabatan_karyawan VALUES ('', '$jabatan_id', '$tanggal_mulai')";
+    $query = "INSERT INTO jabatan_karyawan VALUES ('', '$karyawan_id', '$jabatan_id', '$tanggal_mulai')";
     $simpan = mysqli_query($conn, $query);
 
     if ($simpan) {
@@ -111,7 +112,7 @@ if (isset($_POST["submit"])) {
                                             value="<?php echo $row_karyawan["nik"]; ?>" readonly>
                                         </div>
                                         <div class="form-group">
-                                            <label for="nama">Nsma Karyawan :</label>
+                                            <label for="nama">Nama Karyawan :</label>
                                             <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap"
                                             value="<?php echo $row_karyawan["nama_lengkap"]; ?>" readonly>
                                         </div>
@@ -145,6 +146,41 @@ if (isset($_POST["submit"])) {
                             </div>
                         </div>
                         <!-- /.col -->
+                        <div class="card-header">
+                            <h3 class="card-title">Riwayat Jabatan</h3>
+                        </div>
+                        
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Action</th>
+                                        <th>Nama Jabatan</th>
+                                        <th>Tanggal Mulai</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $no = 1;
+                                    while ($row_jabkar = mysqli_fetch_assoc($result_jabkar)) { ?>
+                                    <tr>
+                                        <td><?php echo $no; ?></td>
+                                        <td>
+                                            <a href="karyawab-jabatan-hapus.php?id=<?php echo $row_jabkar["id"] ?>"
+                                            class="btn btn-danger btn xs text-light"
+                                            onclick="javascript : return confirm('Apakah yakin ingin menghapus data ini....?');">
+                                            <i class="fa fa-trash"></i>Haputs</a>
+                                        </td>
+                                        <td><?php echo $row_jabkar["nama_jabatan"]; ?></td>
+                                        <td><?php echo $row_jabkar["tanggal_mulai"]; ?></td>
+                                    </tr>
+                                    <?php $no++;
+                                    } ?>
+                                </tbody>
+
+                            </table>
+
+                        </div>
                     </div>
                     <!-- /.row -->
                 </div>
