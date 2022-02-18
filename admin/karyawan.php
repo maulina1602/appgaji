@@ -69,7 +69,7 @@ $result = mysqli_query($conn, $querry);
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <a href="lokasi-tambah.php" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Tambah Data</a>
+                                    <a href="jabatan-tambah.php" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Tambah Data</a>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
