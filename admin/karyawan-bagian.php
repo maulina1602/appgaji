@@ -13,17 +13,17 @@ include '../koneksi.php';
 
 $id = $_GET["id"];
 $query_jabkar = "SELECT
-jabatan_karyawan.id,
-jabatan_karyawan.karyawan_id,
+bagian_karyawan.id,
+bagian_karyawan.karyawan_id,
 karyawan.nama_lengkap,
-jabatan.nama_jabatan,
-jabatan_karyawan.tanggal_mulai
+bagian.nama_bagian,
+bagian_karyawan.tanggal_mulai
 FROM
-jabatan_karyawan, karyawan, jabatan
+bagian_karyawan, karyawan, bagian
 WHERE
-karyawan.id = jabatan_karyawan.karyawan_id AND
-jabatan.id = jabatan_karyawan.jabatan_id AND
-jabatan_karyawan.karyawan_id = $id";
+karyawan.id = bagian_karyawan.karyawan_id AND
+bagian.id = bagian_karyawan.bagian_id AND
+bagian_karyawan.karyawan_id = $id";
 $result_jabkar = mysqli_query($conn, $query_jabkar);
 
 $query_karyawan = "SELECT * FROM karyawan WHERE id = $id";
@@ -33,21 +33,21 @@ $row_karyawan = mysqli_fetch_assoc($result_karyawan);
 if (isset($_POST["submit"])) {
 
     $karyawan_id = htmlspecialchars($_POST["karyawan_id"]);
-    $jabatan_id = htmlspecialchars($_POST["jabatan_id"]);
+    $bagian_id = htmlspecialchars($_POST["bagian_id"]);
     $tanggal_mulai = htmlspecialchars($_POST["tanggal_mulai"]);
 
-    $query = "INSERT INTO jabatan_karyawan VALUES ('', '$karyawan_id', '$jabatan_id', '$tanggal_mulai')";
+    $query = "INSERT INTO bagian_karyawan VALUES ('', '$karyawan_id', '$bagian_id', '$tanggal_mulai')";
     $simpan = mysqli_query($conn, $query);
 
     if ($simpan) {
         echo "<script type='text/javascript'>
                 alert('Data berhasil disimpan..!');
-                 document.location.href = 'karyawan-jabatan.php?id=$id';
+                 document.location.href = 'karyawan-bagian.php?id=$id';
             </script>";
     }else{
         echo "<script type='text/javascript'>
                 alert('Data GAGAL disimpan..!');
-                 document.location.href = 'karyawan-jabatan.php?id=$id';
+                 document.location.href = 'karyawan-bagian.php?id=$id';
             </script>";
 
     }
@@ -79,13 +79,13 @@ if (isset($_POST["submit"])) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Data Jabatan Karyawan</h1>
+                            <h1>Data bagian Karyawan</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                                 <li class="breadcrumb-item"><a href="lokasi.php">Karyawan</a></li>
-                                <li class="breadcrumb-item active">Jabatan Karyawan</li>
+                                <li class="breadcrumb-item active">Bagian Karyawan</li>
                             </ol>
                         </div>
                     </div>
@@ -117,16 +117,16 @@ if (isset($_POST["submit"])) {
                                             value="<?php echo $row_karyawan["nama_lengkap"]; ?>" readonly>
                                         </div>
                                         <div class="form-group">
-                                            <label for="jabatan_id">Pilih Jabatan :</label>
-                                            <select class="form-control" id="jabatan_id" name="jabatan_id" required>
-                                                <option value="">-- Pilih Jabatan --</option>
+                                            <label for="bagian_id">Pilih Bagian :</label>
+                                            <select class="form-control" id="bagian_id" name="bagian_id" required>
+                                                <option value="">-- Pilih Bagian --</option>
                                                 <?php
-                                                $query_jabatan ="SELECT * FROM jabatan";
-                                                $result_jabatan = mysqli_query($conn, $query_jabatan);
-                                                while ($row_jabatan = mysqli_fetch_assoc($result_jabatan)) {
+                                                $query_bagian ="SELECT * FROM bagian";
+                                                $result_bagian = mysqli_query($conn, $query_bagian);
+                                                while ($row_bagian = mysqli_fetch_assoc($result_bagian)) {
                                                 ?>
-                                                    <option value="<?php echo $row_jabatan["id"]; ?>">
-                                                    <?php echo $row_jabatan["nama_jabatan"]; ?>
+                                                    <option value="<?php echo $row_bagian["id"]; ?>">
+                                                    <?php echo $row_bagian["nama_bagian"]; ?>
                                                     </option>
                                                 <?php } ?>
                                             </select>
@@ -153,7 +153,7 @@ if (isset($_POST["submit"])) {
                         <div class="col-12">
                         <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Riwayat Jabatan</h3>
+                                    <h3 class="card-title">Riwayat bagian</h3>
                                 </div>
                                 
                                 <!-- <form action="" method="post"> -->
@@ -163,7 +163,7 @@ if (isset($_POST["submit"])) {
                                     <tr>
                                         <th>No</th>
                                         <th>Action</th>
-                                        <th>Nama Jabatan</th>
+                                        <th>Nama Bagian</th>
                                         <th>Tanggal Mulai</th>
                                     </tr>
                             </thead>
@@ -173,12 +173,12 @@ if (isset($_POST["submit"])) {
                                     <tr>
                                         <td><?php echo $no; ?></td>
                                         <td>
-                                            <a href="karyawan-jabatan-hapus.php?id=<?php echo $row_jabkar["id"] ?>"
+                                            <a href="karyawan-bagian-hapus.php?id=<?php echo $row_jabkar["id"] ?>"
                                             class="btn btn-danger btn xs text-light"
                                             onclick="javascript : return confirm('Apakah yakin ingin menghapus data ini....?');">
-                                            <i class="fa fa-trash"></i>Hapus</a>
+                                            <i class="fa fa-trash"></i>Haputs</a>
                                         </td>
-                                        <td><?php echo $row_jabkar["nama_jabatan"]; ?></td>
+                                        <td><?php echo $row_jabkar["nama_bagian"]; ?></td>
                                         <td><?php echo $row_jabkar["tanggal_mulai"]; ?></td>
                                     </tr>
                                     <?php $no++;
@@ -188,7 +188,7 @@ if (isset($_POST["submit"])) {
                                     <tr>
                                         <th>No</th>
                                         <th>Action</th>
-                                        <th>Nama Jabatan</th>
+                                        <th>Nama bagian</th>
                                         <th>Tanggal Mulai</th>
                                     </tr>
                             </tfoot>
