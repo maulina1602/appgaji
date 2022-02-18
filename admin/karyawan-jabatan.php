@@ -176,7 +176,7 @@ if (isset($_POST["submit"])) {
                                             <a href="karyawab-jabatan-hapus.php?id=<?php echo $row_jabkar["id"] ?>"
                                             class="btn btn-danger btn xs text-light"
                                             onclick="javascript : return confirm('Apakah yakin ingin menghapus data ini....?');">
-                                            <i class="fa fa-trash"></i>Haputs</a>
+                                            <i class="fa fa-trash"></i>Hapus</a>
                                         </td>
                                         <td><?php echo $row_jabkar["nama_jabatan"]; ?></td>
                                         <td><?php echo $row_jabkar["tanggal_mulai"]; ?></td>
