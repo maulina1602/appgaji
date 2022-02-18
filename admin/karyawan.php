@@ -108,11 +108,7 @@ $result = mysqli_query($conn, $querry);
                                         </tbody>
                                         <tfoot>
                                             <tr>
-<<<<<<< HEAD
                                                 <th>No</th>
-=======
-                                            <th>No</th>
->>>>>>> 39cbbb688f3885cc591613a9aee97145a4ae7cee
                                                 <th>Action</th>
                                                 <th>Nama Lengkap</th>
                                                 <th>NIK</th>

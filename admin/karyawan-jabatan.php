@@ -107,46 +107,27 @@ if (isset($_POST["submit"])) {
                                 <form action="" method="post">
                                     <div class="card-body">
                                         <div class="form-group">
-<<<<<<< HEAD
                                             <label for="nik">Nomor Induk Karyawan :</label>
-=======
-                                            <label for="nama">Nomor Induk Karyawan :</label>
->>>>>>> 39cbbb688f3885cc591613a9aee97145a4ae7cee
                                             <input type="text" class="form-control" id="nik" name="nik"
                                             value="<?php echo $row_karyawan["nik"]; ?>" readonly>
                                         </div>
                                         <div class="form-group">
-<<<<<<< HEAD
                                             <label for="nama_lengkap">Nama Karyawan :</label>
-=======
-                                            <label for="nama">Nama Karyawan :</label>
->>>>>>> 39cbbb688f3885cc591613a9aee97145a4ae7cee
                                             <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap"
                                             value="<?php echo $row_karyawan["nama_lengkap"]; ?>" readonly>
                                         </div>
                                         <div class="form-group">
-<<<<<<< HEAD
                                             <label for="jabatan_id">Pilih Jabatan :</label>
                                             <select class="form-control" id="jabatan_id" name="jabatan_id" required>
                                                 <option value="">-- Pilih Jabatan --</option>
                                                 <?php
-                                                $query_jabatan = "SELECT * FROM jabatan";
+                                                $query_jabatan ="SELECT * FROM jabatan";
                                                 $result_jabatan = mysqli_query($conn, $query_jabatan);
                                                 while ($row_jabatan = mysqli_fetch_assoc($result_jabatan)) {
                                                 ?>
                                                     <option value="<?php echo $row_jabatan["id"]; ?>">
-=======
-                                            <label for="select">Pilih Jabatan :</label>
-                                            <select class="form-control" id="jabatan_id" name="jabatan_id" required>
-                                                <option value="">-- Pilih Jabatan --</option>
-                                                <?php
-                                                $query_jabatan ="SELECT * FROM jabatan";
-                                                $reult_jabatan = mysqli_query($conn, $query_jabatan);
-                                                while ($row_jabatan = mysqli_fetch_assoc($result_jabatan)) {
-                                                ?>
-                                                    <option value="<? echo $row_jabatan["id"]; ?>>
->>>>>>> 39cbbb688f3885cc591613a9aee97145a4ae7cee
-                                                    <?php echo $row_jabatan["nama_jabatan"]; ?></option>
+                                                    <?php echo $row_jabatan["nama_jabatan"]; ?>
+                                                    </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -197,18 +178,7 @@ if (isset($_POST["submit"])) {
                                     <?php $no++;
                                     } ?>
                                 </tbody>
-<<<<<<< HEAD
-                                <tfoot>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Action</th>
-                                        <th>Nama Jabatan</th>
-                                        <th>Tanggal Mulai</th>
-                                    </tr>
-                                </tfoot>
-=======
 
->>>>>>> 39cbbb688f3885cc591613a9aee97145a4ae7cee
                             </table>
 
                         </div>
