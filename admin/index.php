@@ -1,16 +1,16 @@
-<?php
-
+<?php 
 session_start();
-if($_SESSION["peran"]== "USER"){
+if ($_SESSION["peran"] == "USER") {
     header("Location: logout.php");
     exit;
 }
-if(!isset($_SESSION["login"])){
+if (!isset($_SESSION["login"])) {
     header("Location: ../index.php");
     exit;
 }
 
 include '../koneksi.php';
+
 
 ?>
 <!DOCTYPE html>
@@ -126,9 +126,7 @@ include '../koneksi.php';
                             </div>
                         </div>
                         <!-- ./col -->
-                    </div><a href="https://popcash.net/home/99761" target="_blank" title="PopCash - The Popunder network">
-                    <img src="https://static.popcash.net/img/affiliate/160x600.jpg" alt="PopCash.net">
-          </a>
+                    </div>
                     
                     <!-- /.row -->
                 </div>
