@@ -1,48 +1,70 @@
 <?php
-session_start();
-date_default_timezone_set('Asia/Singapore');
+	// error_reporting(E_ALL^ (E_NOTICE | E_WARNING));
+    session_start(); 
+    date_default_timezone_set('Asia/Singapore');
 
-if (isset($_SESSION["login"])) {
-    header("Location: admin/index.php");
-    exit;
-}
+	// print $user =$_SESSION['User'];
+	// print $user =$_SESSION['Admin'];
 
-require 'koneksi.php';
-
-if (isset($_POST["login"])) {
-
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $login_terakhir = date('Y-m-d H:i:s');
-
-    $result = mysqli_query($conn, "SELECT * FROM pengguna WHERE username = '$username'");
-
-    if (mysqli_num_rows($result) === 1 ) {
-
-        $row = mysqli_fetch_assoc($result);
-
-        if (password_verify($password, $row["password"])) {
-
-            $_SESSION["login"] = true;
-            $_SESSION["peran"] = $row ["peran"];
-            $_SESSION["username"] = $row ["username"];
-            $_SESSION["id"] = $row ["id"];
-
-            if ($row["peran"] == "ADMIN") {
-                // mengupdate data ke database
-                $update = mysqli_query($conn, "UPDATE pengguna SET login_terakhir = '$login_terakhir' WHERE username = '$username'");
-                header("Location: admin/index.php");
-            } else if ($row["peran"] == "USER") {
-                $update = mysqli_query($conn, "UPDATE pengguna SET login_terakhir = '$login_terakhir' WHERE username = '$username'");
-                header("Location: user/index.php");
-            }
-            exit;
-        }
+    if(isset($_SESSION['login'])){
+        header("Location: admin/index.php");
+        exit;
     }
-     
-    $error = true;
-}
-?>
+
+    require 'koneksi.php';
+
+    if(isset($_POST["login"])){
+        
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $login_terakhir = date('Y-m-d H:i:s');
+    
+        $result = mysqli_query($conn,"SELECT * FROM pengguna WHERE username ='$username' ");
+    
+        if(mysqli_num_rows($result) === 1){
+
+            $row = mysqli_fetch_assoc($result);
+
+            if(password_verify($password, $row["password"])){
+                $_SESSION['login'] = true;
+                $_SESSION['peran'] = $row["peran"];
+                $_SESSION['username'] = $row["username"];
+                $_SESSION['id'] = $row["id"];
+
+                if($row["peran"] == "ADMIN"){
+                    //mengupdate data ke database
+                    $update = mysqli_query($conn, "UPDATE pengguna SET login_terakhir = '$loginterakhir' WHERE username='$username' ");
+                    header("Location: admin/index.php");
+                }   elseif ($row["peran"] == "USER"){
+                    //mengupdate data ke database
+                    $update = mysqli_query($conn, "UPDATE pengguna SET login_terakhir = '$loginterakhir' WHERE username='$username' ");
+                    header("Location: user/index.php");
+                }   
+
+                exit;
+            }
+        }
+
+        $error = true;
+    
+    }
+
+
+	// if ($_SESSION['Admin'] or $_SESSION['User']){
+	// 	if ($_SESSION['Admin']){
+	// 		$user =$_SESSION['Admin'];
+	// 	}	else{
+	// 		$user =$_SESSION['User'];
+	// 	}
+    //     $sql = mysqli_query($connection,"SELECT * FROM USER, karyawan
+	// 	WHERE karyawan.nrp = USER.nrp and karyawan.nrp='$user'");
+
+    //     $sesyen = mysqli_fetch_assoc($sql);
+            
+    
+    ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,14 +91,14 @@ if (isset($_POST["login"])) {
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Masukkan username dan password anda</p>
-               
+                <?php if(isset($error)){?>
                     <div class="alert alert-warning alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Alert!</h5>
                         Username atau Password salah...!
                     </div>
-   
-             
+                    <?php } ?>
+                    
                 <form action="" method="post">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="username" placeholder="Username" required>
@@ -114,17 +136,6 @@ if (isset($_POST["login"])) {
         <!-- /.card -->
     </div>
     <!-- /.login-box -->
-
-    <p class="login-box-msg">Masukkan username dan password anda</p>
-    <?php if (isset($error)) { ?>
-        <div class="alert alert-warning alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-            username atau password salah...!
-        </div>
-    <?php } ?>
-    <form action="" method="post">
-
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
