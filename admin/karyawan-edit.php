@@ -14,18 +14,25 @@ include '../koneksi.php';
 
 date_default_timezone_set('Asia/Singapore');
 
+$id = $_GET["id"];
+$query_karyawan ="SELECT * FROM karyawan WHERE id='$id' ";
+$result_karyawan = mysqli_query($conn,$query_karyawan);
+$row_karyawan = mysqli_fetch_assoc($result_karyawan);
+
 if(isset($_POST["submit"])){    
     $nik = htmlspecialchars($_POST["nik"]);
     $nama_lengkap = htmlspecialchars($_POST["nama_lengkap"]);
     $handphone = htmlspecialchars($_POST["handphone"]);
     $email = htmlspecialchars($_POST["email"]);
-    $tanggal_masuk = htmlspecialchars($_POST["tanggal_masuk"]);
     $pengguna_id = htmlspecialchars($_POST["pengguna_id"]);
 
-    $query ="INSERT INTO karyawan VALUES ('','$nik','$nama_lengkap','$handphone','$email','$tanggal_masuk','$pengguna_id')";
-    $simpan = mysqli_query($conn,$query);
+    $query ="UPDATE karyawan 
+    SET nik='$nik', nama_lengkap='$nama_lengkap', handphone='$handphone', email='$email', pengguna_id='$pengguna_id'
+    WHERE id='$id'
+    ";
+    $edit = mysqli_query($conn,$query);
 
-    if($simpan){
+    if($edit){
         echo "  <script type='text/javascript'>
                     alert ('Data Berhasil disimpan...!')
                     window.location.href= 'karyawan.php';
@@ -33,7 +40,7 @@ if(isset($_POST["submit"])){
     } else {
         echo "  <script type='text/javascript'>
                     alert ('Data GAGAL disimpan...!')
-                    window.location.href= 'karyawan-tambah.php';
+                    window.location.href= 'karyawan-edit.php?id=$id';
                 </script>";
     }
 }
@@ -71,7 +78,7 @@ if(isset($_POST["submit"])){
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                                 <li class="breadcrumb-item"><a href="karyawan.php">Karyawan</a></li>
-                                <li class="breadcrumb-item active">Tambah Karyawan</li>
+                                <li class="breadcrumb-item active">Update Karyawan</li>
                             </ol>
                         </div>
                     </div>
@@ -86,7 +93,7 @@ if(isset($_POST["submit"])){
                             <!-- general form elements -->
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Tambah Data</h3>
+                                    <h3 class="card-title">Update Data</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
@@ -94,21 +101,20 @@ if(isset($_POST["submit"])){
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="nik">NIK</label>
-                                            <input type="number" class="form-control" id="nik" name="nik" placeholder="Nomor Induk Kependudukan" required>
+                                            <input type="number" class="form-control" id="nik" name="nik" placeholder="Nomor Induk Kependudukan" value="<?= $row_karyawan['nik'] ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="nama_lengkap">Nama Lengkap</label>
-                                            <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" placeholder="Nama Lengkap tanpa title" required>
+                                            <input type="text" class="form-control" value="<?= $row_karyawan['nama_lengkap'] ?>" id="nama_lengkap" name="nama_lengkap" placeholder="Nama Lengkap tanpa title" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="handphone">Handphone</label>
-                                            <input type="text" class="form-control" id="handphone" name="handphone" placeholder="Nomor Handphone Aktif" required>
+                                            <input type="text" class="form-control" id="handphone" name="handphone" placeholder="Nomor Handphone Aktif" value="<?= $row_karyawan['handphone'] ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Email Aktif" required>
+                                            <input type="email" class="form-control" id="email" value="<?= $row_karyawan['email'] ?>" name="email" placeholder="Email Aktif" required>
                                         </div>
-                                            <input type="hidden" name="tanggal_masuk" value="<?= date("Y-m-d"); ?>">
                                             <input type="hidden" name="pengguna_id" value="<?= $_SESSION["id"]; ?>">
                                     </div>
                                     <!-- /.card-body -->
